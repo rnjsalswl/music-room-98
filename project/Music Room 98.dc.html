@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-509f50ba-a9c8-4785-ba78-ad23c3833b3a/styles.css">
+<script src="_ds/organic-509f50ba-a9c8-4785-ba78-ad23c3833b3a/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+html,body{margin:0;background:#008080}
+@keyframes eq{0%{height:4px}50%{height:14px}100%{height:4px}}
+@keyframes popin{from{transform:translateY(12px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes blink{0%,60%{opacity:1}61%,100%{opacity:.25}}
+</style>
+</helmet>
+
+<section style="padding:36px 40px 60px;background:#008080;font-family:Tahoma,Gulim,Dotum,'MS Sans Serif',sans-serif;color:#000;display:flex;flex-direction:column;gap:26px">
+
+  <div style="max-width:660px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080">
+    <div style="display:flex;align-items:center;gap:8px;padding:3px 3px 3px 5px;background:linear-gradient(90deg,#000080,#1084d0)">
+      <div style="width:14px;height:14px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff"></div>
+      <span style="flex:1;font-size:12px;font-weight:700;color:#fff">읽어보기 — 시안 1차</span>
+      <div style="display:flex;gap:2px">
+        <div style="width:17px;height:15px;display:flex;align-items:flex-end;justify-content:center;font-size:11px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">_</div>
+        <div style="width:17px;height:15px;display:flex;align-items:center;justify-content:center;font-size:9px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">□</div>
+        <div style="width:17px;height:15px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">✕</div>
+      </div>
+    </div>
+    <div style="padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px">
+      <h1 style="margin:0;font-family:var(--font-heading);font-size:30px;line-height:1.1">지금 듣는 곡, 2~8명 방에서</h1>
+      <p style="margin:0;font-size:12.5px;line-height:1.7">답 주신 대로 풀 98 스킨입니다. 창 크롬·베벨·작업표시줄·비트맵 느낌의 목록을 정통 98 팔레트(티일 바탕, 그레이 창, 네이비 타이틀바)로 쓰고, Organic의 테라코타·세이지는 앨범아트와 상태 강조에만 남겼습니다.</p>
+      <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.8;display:flex;flex-direction:column;gap:2px">
+        <li><strong>셋로그</strong>는 "번호 + 시간이 붙은 트랙 로그가 위에서 아래로 쌓이는" 구조로 해석했습니다. 특정 앱 이름이라고 하셨는데 어떤 앱인지 알려주시면 그 레이아웃에 정확히 맞추겠습니다.</li>
+        <li>플랫폼 7개 전부 연결 대상. 곡을 누르면 <strong>내 기본 플랫폼으로 딥링크</strong>로 넘어갑니다.</li>
+        <li>방 안에 <strong>같이 듣기(동시 재생)</strong> 스위치와 <strong>플레이리스트로 저장</strong>을 넣었습니다.</li>
+        <li>보내주신 베이퍼웨이브 감성은 앨범아트에 적용했습니다. 저는 이미지를 생성할 수 없으니, <strong>점선 슬롯에 이미지를 끌어다 놓으면</strong> 그대로 들어갑니다(<a href="#1c" style="color:#000080">1c</a>의 네 칸). 비어 있는 동안은 CSS 디더 + 스캔라인 핑크·시안 처리로 채웁니다.</li>
+      </ul>
+      <p style="margin:0;font-size:12px;line-height:1.7;color:#404040">아래 <a href="#1a" style="color:#000080">1a</a>가 동작하는 프로토타입, <a href="#1b" style="color:#000080">1b</a>~<a href="#1d" style="color:#000080">1d</a>는 방 피드 레이아웃·앨범아트 트리트먼트 변형입니다.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start">
+
+    <div id="1a" style="display:flex;flex-direction:column;gap:9px">
+      <div style="display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:#ffffff"><a href="#1a" style="font-weight:700;padding:2px 7px;background:#000080;color:#fff;text-decoration:none">1a</a><span>동작하는 프로토타입 · 셋로그 피드</span></div>
+
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:#008080;overflow:hidden;font-family:Tahoma,Gulim,Dotum,'MS Sans Serif',sans-serif;color:#000">
+
+          <div style="height:50px;flex:none"></div>
+
+          <div style="flex:1;min-height:0;margin:0 8px;display:flex;flex-direction:column;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080">
+
+            <div style="flex:none;display:flex;align-items:center;gap:7px;padding:3px 3px 3px 5px;background:linear-gradient(90deg,#000080,#1084d0)">
+              <div style="width:15px;height:15px;flex:none;display:flex;align-items:center;justify-content:center;font-size:9px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff">♪</div>
+              <span style="flex:1;min-width:0;font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ winTitle }}</span>
+              <div style="display:flex;gap:2px">
+                <div style="width:17px;height:15px;display:flex;align-items:flex-end;justify-content:center;font-size:11px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">_</div>
+                <div style="width:17px;height:15px;display:flex;align-items:center;justify-content:center;font-size:9px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">□</div>
+                <div style="width:17px;height:15px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">✕</div>
+              </div>
+            </div>
+
+            <div style="flex:none;display:flex;gap:2px;padding:2px 4px;font-size:11.5px;border-bottom:1px solid #808080">
+              <span style="padding:2px 7px;text-decoration:underline">파일</span>
+              <span style="padding:2px 7px;text-decoration:underline">방</span>
+              <span style="padding:2px 7px;text-decoration:underline">보기</span>
+              <span style="padding:2px 7px;text-decoration:underline">도움말</span>
+            </div>
+
+            <div style="flex:1;min-height:0;overflow:auto;margin:4px;padding:8px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080;box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #dfdfdf">
+
+              <sc-if value="{{ isRoom }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:11px">
+
+                  <div style="padding:8px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">
+                      <div style="display:flex;align-items:flex-end;gap:2px;height:14px">
+                        <div style="width:3px;background:#000080;animation:eq .9s ease-in-out infinite"></div>
+                        <div style="width:3px;background:#000080;animation:eq .9s ease-in-out .3s infinite"></div>
+                        <div style="width:3px;background:#000080;animation:eq .9s ease-in-out .6s infinite"></div>
+                      </div>
+                      <span style="font-size:11px;font-weight:700;letter-spacing:.04em">내가 지금 듣는 중</span>
+                      <span style="margin-left:auto;font-size:10.5px;font-weight:700;padding:1px 6px;background:#000080;color:#fff">{{ myPlatform }}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:9px;padding:7px;background:#000;border:2px solid;border-color:#808080 #fff #fff #808080">
+                      <div style="position:relative;width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:20px;color:#fff;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,rgba(255,255,255,.06) 1px 3px),linear-gradient(150deg,#ff4fc3,#8a4be0 48%,#18c8e8)">밤</div>
+                      <div style="flex:1;min-width:0;overflow:hidden">
+                        <div style="font-size:13.5px;font-weight:700;color:#00ff9c;font-family:Tahoma,Gulim,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">밤의 산책</div>
+                        <div style="font-size:11.5px;color:#7ad4a8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">유정하 — 느린 여름 EP</div>
+                        <div style="margin-top:5px;height:7px;background:#004b2e;display:flex;gap:2px;padding:1px">
+                          <div style="width:44%;background:#00ff9c"></div>
+                        </div>
+                      </div>
+                      <div style="font-size:11px;color:#7ad4a8;font-variant-numeric:tabular-nums">1:52</div>
+                    </div>
+                    <div style="margin-top:8px;display:flex;gap:6px">
+                      <button onClick="{{ openShare }}" style="flex:1;min-height:44px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000;box-shadow:inset 1px 1px 0 #808080">▶ 이 곡 방에 공유</button>
+                      <button onClick="{{ openInvite }}" style="flex:none;min-height:44px;padding:0 11px;cursor:pointer;font-family:inherit;font-size:12px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">{{ memberLabel }}</button>
+                    </div>
+                  </div>
+
+                  <div style="display:flex;align-items:center;gap:7px;padding:5px 7px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+                    <span style="font-size:12px;font-weight:700;flex:1">같이 듣기 (동시 재생)</span>
+                    <button onClick="{{ toggleTogether }}" style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 9px;font-family:inherit;font-size:11.5px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff" style-hover="background:#cdcdcd">
+                      <span style="width:13px;height:13px;display:flex;align-items:center;justify-content:center;font-size:10px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">{{ togetherMark }}</span>{{ togetherLabel }}
+                    </button>
+                  </div>
+
+                  <sc-if value="{{ together }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:7px 8px;font-size:11.5px;line-height:1.5;background:#ffffe1;border:1px solid #000">
+                      <strong>{{ memberCount }}명</strong>이 같은 타임코드에서 듣고 있습니다. 누가 곡을 바꾸면 방 전체가 따라갑니다.
+                    </div>
+                  </sc-if>
+
+                  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding-bottom:3px;border-bottom:1px solid #808080">
+                    <span style="font-family:var(--font-heading);font-size:17px">셋로그</span>
+                    <span style="font-size:11px">오늘 · {{ logCount }}곡</span>
+                  </div>
+
+                  <div style="display:flex;flex-direction:column">
+                    <sc-for list="{{ entries }}" as="e" hint-placeholder-count="5">
+                      <button onClick="{{ e.onClick }}" style="display:flex;align-items:center;gap:9px;width:100%;text-align:left;cursor:pointer;padding:7px 6px;font-family:inherit;background:#fff;border:0;border-bottom:1px dotted #808080" style-hover="background:#ffffe1" style-active="background:#000080">
+                        <span style="width:17px;flex:none;text-align:right;font-size:11px;font-weight:700;color:#808080;font-variant-numeric:tabular-nums">{{ e.no }}</span>
+                        <span style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:18px;color:{{ e.artInk }};background:{{ e.art }};border:2px solid;border-color:#808080 #fff #fff #808080">{{ e.glyph }}</span>
+                        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px">
+                          <span style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.title }}</span>
+                          <span style="font-size:11.5px;color:#404040;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.artist }}</span>
+                          <span style="display:flex;align-items:center;gap:5px;margin-top:2px">
+                            <span style="width:15px;height:15px;flex:none;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;color:#fff;background:{{ e.userBg }}">{{ e.userInitial }}</span>
+                            <span style="font-size:10.5px;color:#404040">{{ e.user }} · {{ e.time }}</span>
+                            <span style="font-size:10px;font-weight:700;padding:0 5px;background:#c0c0c0;border:1px solid #808080">{{ e.platform }}</span>
+                          </span>
+                        </span>
+                        <span style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:10px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">▶</span>
+                      </button>
+                    </sc-for>
+                  </div>
+
+                  <button onClick="{{ openExport }}" style="width:100%;min-height:44px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">💾 오늘 셋로그 {{ logCount }}곡 → 플레이리스트로 내보내기</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:3px;border-bottom:1px solid #808080">
+                    <span style="font-family:var(--font-heading);font-size:18px">내 방</span>
+                    <span style="font-size:11px">한 방 최대 8명</span>
+                  </div>
+                  <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="3">
+                    <button onClick="{{ r.onClick }}" style="display:flex;flex-direction:column;gap:6px;width:100%;text-align:left;cursor:pointer;padding:9px;font-family:inherit;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">
+                      <span style="display:flex;align-items:center;gap:7px;width:100%">
+                        <span style="width:11px;height:11px;flex:none;background:{{ r.dot }};border:1px solid #000"></span>
+                        <span style="flex:1;min-width:0;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
+                        <span style="font-size:10.5px;font-weight:700;padding:1px 6px;background:#000080;color:#fff">{{ r.seats }}</span>
+                      </span>
+                      <span style="display:flex;align-items:center;gap:5px;width:100%">
+                        <span style="display:flex;gap:3px">{{ r.faces }}</span>
+                        <span style="flex:1;min-width:0;font-size:11px;color:#202020;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.last }}</span>
+                      </span>
+                    </button>
+                  </sc-for>
+                  <button onClick="{{ openInvite }}" style="width:100%;min-height:44px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">＋ 새 방 만들기</button>
+                  <div style="padding:7px 8px;font-size:11px;line-height:1.5;background:#ffffe1;border:1px solid #000">방은 초대 코드로만 들어옵니다. 공개 검색은 없습니다.</div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isMe }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:center;gap:10px;padding:9px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+                    <div style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:19px;color:#fff;background:#c67139;border:2px solid;border-color:#808080 #fff #fff #808080">지</div>
+                    <div>
+                      <div style="font-size:14px;font-weight:700">지민</div>
+                      <div style="font-size:11.5px">이번 주 14곡 공유 · 방 3개</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:3px;border-bottom:1px solid #808080">
+                    <span style="font-family:var(--font-heading);font-size:17px">플랫폼 연결</span>
+                    <span style="font-size:11px">기본 1개</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column">
+                    <sc-for list="{{ platforms }}" as="p" hint-placeholder-count="7">
+                      <button onClick="{{ p.onClick }}" style="display:flex;align-items:center;gap:9px;width:100%;text-align:left;cursor:pointer;padding:8px 6px;font-family:inherit;background:{{ p.bg }};border:0;border-bottom:1px dotted #808080" style-hover="background:#ffffe1">
+                        <span style="width:14px;height:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">{{ p.mark }}</span>
+                        <span style="width:22px;height:22px;flex:none;background:{{ p.swatch }};border:1px solid #000"></span>
+                        <span style="flex:1;min-width:0;font-size:13px;font-weight:700;color:{{ p.ink }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</span>
+                        <span style="font-size:10.5px;font-weight:700;color:{{ p.ink }}">{{ p.state }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="padding:7px 8px;font-size:11px;line-height:1.5;background:#ffffe1;border:1px solid #000">기본으로 지정한 플랫폼에서 방의 모든 곡이 열립니다. 방 멤버가 다른 앱을 써도 상관없습니다.</div>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="flex:none;display:flex;gap:4px;padding:3px 4px 4px;font-size:10.5px">
+              <span style="flex:1;padding:2px 6px;background:#c0c0c0;border:2px solid;border-color:#808080 #fff #fff #808080;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ statusText }}</span>
+              <span style="flex:none;padding:2px 8px;background:#c0c0c0;border:2px solid;border-color:#808080 #fff #fff #808080">{{ memberLabel }}</span>
+            </div>
+          </div>
+
+          <sc-if value="{{ hasNow }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:none;margin:6px 8px 0;display:flex;align-items:center;gap:8px;padding:6px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080">
+              <div style="display:flex;align-items:flex-end;gap:2px;height:14px;padding:0 2px">
+                <div style="width:3px;background:#000080;animation:eq .8s ease-in-out infinite"></div>
+                <div style="width:3px;background:#000080;animation:eq .8s ease-in-out .25s infinite"></div>
+                <div style="width:3px;background:#000080;animation:eq .8s ease-in-out .5s infinite"></div>
+              </div>
+              <div style="flex:1;min-width:0;padding:4px 6px;background:#000;border:2px solid;border-color:#808080 #fff #fff #808080">
+                <div style="font-size:11.5px;font-weight:700;color:#00ff9c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ nowTitle }}</div>
+                <div style="font-size:10px;color:#7ad4a8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ myPlatform }} 재생 중 · {{ nowFrom }} 공유</div>
+              </div>
+              <button onClick="{{ stopNow }}" style="width:30px;height:30px;flex:none;cursor:pointer;font-family:inherit;font-size:10px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff" style-hover="background:#cdcdcd">■</button>
+            </div>
+          </sc-if>
+
+          <div style="flex:none;margin-top:6px;padding:3px 4px 38px;display:flex;align-items:center;gap:4px;background:#c0c0c0;border-top:2px solid #fff">
+            <button onClick="{{ goHome }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;min-height:34px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;background:{{ homeBg }};border:2px solid;border-color:{{ homeBorder }}"><span style="font-size:12px">▣</span>홈</button>
+            <button onClick="{{ goRoom }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;min-height:34px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;background:{{ roomBg }};border:2px solid;border-color:{{ roomBorder }}"><span style="font-size:12px">♫</span>방</button>
+            <button onClick="{{ goMe }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;min-height:34px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;background:{{ meBg }};border:2px solid;border-color:{{ meBorder }}"><span style="font-size:12px">◉</span>나</button>
+            <div style="flex:none;padding:6px 8px;font-size:11px;background:#c0c0c0;border:2px solid;border-color:#808080 #fff #fff #808080;font-variant-numeric:tabular-nums">22:41</div>
+          </div>
+
+          <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:14px;right:14px;bottom:120px;z-index:90;display:flex;align-items:center;gap:8px;padding:9px 10px;background:#ffffe1;border:2px solid #000;box-shadow:4px 4px 0 rgba(0,0,0,.35);animation:popin .18s ease-out">
+              <span style="width:20px;height:20px;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;background:#000080">i</span>
+              <span style="flex:1;font-size:11.5px;line-height:1.45">{{ toast }}</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;z-index:95;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(0,0,0,.4)">
+              <div onClick="{{ stopProp }}" style="width:100%;max-height:100%;overflow:auto;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080,5px 5px 0 rgba(0,0,0,.35);animation:popin .18s ease-out">
+                <div style="display:flex;align-items:center;gap:7px;padding:3px 3px 3px 5px;background:linear-gradient(90deg,#000080,#1084d0)">
+                  <span style="flex:1;min-width:0;font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sheetTitle }}</span>
+                  <button onClick="{{ closeSheet }}" style="width:17px;height:15px;cursor:pointer;font-family:inherit;font-size:10px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">✕</button>
+                </div>
+                <div style="padding:12px;display:flex;flex-direction:column;gap:11px">
+
+                  <sc-if value="{{ isPlaySheet }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:11px">
+                      <div style="display:flex;align-items:center;gap:10px">
+                        <div style="width:58px;height:58px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:23px;color:{{ sel.artInk }};background:{{ sel.art }};border:2px solid;border-color:#808080 #fff #fff #808080">{{ sel.glyph }}</div>
+                        <div style="flex:1;min-width:0">
+                          <div style="font-size:15px;font-weight:700">{{ sel.title }}</div>
+                          <div style="font-size:12px">{{ sel.artist }}</div>
+                          <div style="margin-top:3px;font-size:11px;color:#303030">{{ sel.user }}님이 {{ sel.platform }}에서 공유 · {{ sel.time }}</div>
+                        </div>
+                      </div>
+                      <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}">
+                        <div style="padding:8px 9px;font-size:12px;line-height:1.5;background:#ffffe1;border:1px solid #000">“{{ sel.note }}”</div>
+                      </sc-if>
+                      <div style="display:flex;align-items:center;gap:9px;padding:9px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                        <div style="width:26px;height:26px;flex:none;background:#c67139;border:1px solid #000"></div>
+                        <div style="flex:1;min-width:0">
+                          <div style="font-size:12px;font-weight:700">내 기본 플랫폼: {{ myPlatform }}</div>
+                          <div style="font-size:11px;color:#303030">딥링크로 바로 이동해 내 계정에서 재생합니다</div>
+                        </div>
+                      </div>
+                      <div style="display:flex;gap:7px">
+                        <button onClick="{{ playHere }}" style="flex:1;min-height:44px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">{{ myPlatform }}에서 열기</button>
+                        <button onClick="{{ closeSheet }}" style="flex:none;min-height:44px;padding:0 13px;cursor:pointer;font-family:inherit;font-size:12.5px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff" style-hover="background:#cdcdcd">취소</button>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ isShareSheet }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:11px">
+                      <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                        <div style="position:relative;width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:20px;color:#fff;border:1px solid #000;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,rgba(255,255,255,.06) 1px 3px),linear-gradient(150deg,#ff4fc3,#8a4be0 48%,#18c8e8)">밤</div>
+                        <div style="flex:1;min-width:0">
+                          <div style="font-size:14px;font-weight:700">밤의 산책</div>
+                          <div style="font-size:11.5px">유정하 · {{ myPlatform }}에서 재생 중</div>
+                        </div>
+                      </div>
+                      <div>
+                        <div style="font-size:11px;font-weight:700;margin-bottom:4px">한 줄 메모 (선택)</div>
+                        <input value="{{ noteDraft }}" onChange="{{ setNote }}" placeholder="새벽에 들으면 다름" style="width:100%;min-height:40px;padding:8px;font-family:inherit;font-size:12.5px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                      </div>
+                      <div>
+                        <div style="font-size:11px;font-weight:700;margin-bottom:4px">보낼 방</div>
+                        <div style="display:flex;flex-direction:column;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                          <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="3">
+                            <button onClick="{{ r.onPick }}" style="display:flex;align-items:center;gap:8px;width:100%;text-align:left;cursor:pointer;padding:8px;font-family:inherit;background:{{ r.pickBg }};border:0;border-bottom:1px dotted #808080" style-hover="background:#ffffe1">
+                              <span style="width:14px;height:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">{{ r.check }}</span>
+                              <span style="flex:1;min-width:0;font-size:12.5px;font-weight:700;color:{{ r.pickInk }}">{{ r.name }}</span>
+                              <span style="font-size:11px;color:{{ r.pickInk }}">{{ r.seats }}</span>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <button onClick="{{ doShare }}" style="width:100%;min-height:44px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">셋로그에 올리기</button>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ isExportSheet }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:11px">
+                      <div style="display:flex;align-items:center;gap:9px;padding:8px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                        <span style="width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;font-size:17px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">💾</span>
+                        <span style="flex:1;min-width:0">
+                          <span style="display:block;font-size:12.5px;font-weight:700">야간 산책 09/16 (화)</span>
+                          <span style="display:block;font-size:11px;color:#303030">그 날 올라온 {{ logCount }}곡 · 멤버 {{ memberCount }}명</span>
+                        </span>
+                      </div>
+                      <div>
+                        <div style="font-size:11px;font-weight:700;margin-bottom:4px">내보낼 날짜</div>
+                        <div style="display:flex;gap:4px">
+                          <sc-for list="{{ days }}" as="d" hint-placeholder-count="3">
+                            <button onClick="{{ d.onPick }}" style="flex:1;min-height:36px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;color:{{ d.ink }};background:{{ d.bg }};border:2px solid;border-color:{{ d.border }}" style-hover="background:#cdcdcd">{{ d.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div>
+                        <div style="font-size:11px;font-weight:700;margin-bottom:4px">내보낼 곳</div>
+                        <div style="display:flex;flex-direction:column;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                          <sc-for list="{{ exportTargets }}" as="t" hint-placeholder-count="4">
+                            <button onClick="{{ t.onPick }}" style="display:flex;align-items:center;gap:8px;width:100%;text-align:left;cursor:pointer;padding:8px;font-family:inherit;background:{{ t.bg }};border:0;border-bottom:1px dotted #808080" style-hover="background:#ffffe1">
+                              <span style="width:13px;height:13px;flex:none;display:flex;align-items:center;justify-content:center;font-size:9px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">{{ t.mark }}</span>
+                              <span style="width:20px;height:20px;flex:none;background:{{ t.swatch }};border:1px solid #000"></span>
+                              <span style="flex:1;min-width:0;font-size:12.5px;font-weight:700;color:{{ t.ink }}">{{ t.name }}</span>
+                              <span style="font-size:10.5px;color:{{ t.ink }}">{{ t.note }}</span>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div style="padding:7px 8px;font-size:11px;line-height:1.5;background:#ffffe1;border:1px solid #000">{{ exportHint }}</div>
+                      <div style="display:flex;gap:7px">
+                        <button onClick="{{ doExport }}" style="flex:1;min-height:44px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd" style-active="border-color:#000 #fff #fff #000">내보내기</button>
+                        <button onClick="{{ closeSheet }}" style="flex:none;min-height:44px;padding:0 13px;cursor:pointer;font-family:inherit;font-size:12.5px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff" style-hover="background:#cdcdcd">취소</button>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ isInviteSheet }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:11px">
+                      <div style="font-size:12px;line-height:1.55">이 방은 <strong>{{ memberLabel }}</strong>입니다. 코드를 받은 사람만 들어올 수 있습니다.</div>
+                      <div style="display:flex;align-items:center;gap:7px">
+                        <div style="flex:1;padding:9px 10px;font-family:var(--font-heading);font-size:20px;letter-spacing:.12em;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">NIGHT-72</div>
+                        <button style="flex:none;min-height:44px;padding:0 12px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff" style-hover="background:#cdcdcd">복사</button>
+                      </div>
+                      <div>
+                        <div style="font-size:11px;font-weight:700;margin-bottom:5px">자리 {{ seatCap }}개</div>
+                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:6px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+                          <sc-for list="{{ seats }}" as="s" hint-placeholder-count="8">
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;background:{{ s.bg }}">
+                              <span style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;color:{{ s.ink }};background:{{ s.face }};border:1px solid #000">{{ s.glyph }}</span>
+                              <span style="font-size:10px;font-weight:700;color:{{ s.nameInk }}">{{ s.name }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <button onClick="{{ closeSheet }}" style="width:100%;min-height:44px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080" style-hover="background:#cdcdcd">확인</button>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </x-import>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;max-width:760px">
+
+      <div id="1b" style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:#ffffff"><a href="#1b" style="font-weight:700;padding:2px 7px;background:#c0c0c0;color:#000;text-decoration:none">1b</a><span>목록 뷰 — 탐색기형 테이블</span></div>
+        <div style="width:344px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080">
+          <div style="display:flex;align-items:center;gap:6px;padding:3px 5px;background:linear-gradient(90deg,#000080,#1084d0)"><span style="flex:1;font-size:11.5px;font-weight:700;color:#fff">야간 산책 클럽 — 셋로그</span><span style="font-size:10px;color:#cfd8ff">5/8</span></div>
+          <div style="margin:4px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+            <div style="display:flex;font-size:10.5px;font-weight:700">
+              <div style="width:30px;padding:3px 4px;background:#c0c0c0;border-right:1px solid #808080;border-bottom:1px solid #808080">#</div>
+              <div style="flex:1;padding:3px 5px;background:#c0c0c0;border-right:1px solid #808080;border-bottom:1px solid #808080">곡</div>
+              <div style="width:58px;padding:3px 5px;background:#c0c0c0;border-right:1px solid #808080;border-bottom:1px solid #808080">공유</div>
+              <div style="width:42px;padding:3px 5px;background:#c0c0c0;border-bottom:1px solid #808080">시간</div>
+            </div>
+            <div style="display:flex;font-size:11.5px;background:#000080;color:#fff"><div style="width:30px;padding:5px 4px;font-variant-numeric:tabular-nums">05</div><div style="flex:1;min-width:0;padding:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Paper Boats — Halcyon Field</div><div style="width:58px;padding:5px">서아</div><div style="width:42px;padding:5px;font-variant-numeric:tabular-nums">22:31</div></div>
+            <div style="display:flex;font-size:11.5px"><div style="width:30px;padding:5px 4px;color:#808080;font-variant-numeric:tabular-nums">04</div><div style="flex:1;min-width:0;padding:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">느린 여름 — 오소리</div><div style="width:58px;padding:5px">태오</div><div style="width:42px;padding:5px;font-variant-numeric:tabular-nums">22:12</div></div>
+            <div style="display:flex;font-size:11.5px;background:#f0f0f0"><div style="width:30px;padding:5px 4px;color:#808080;font-variant-numeric:tabular-nums">03</div><div style="flex:1;min-width:0;padding:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Tangerine Hour — Mimi &amp; the Moths</div><div style="width:58px;padding:5px">하린</div><div style="width:42px;padding:5px;font-variant-numeric:tabular-nums">21:58</div></div>
+            <div style="display:flex;font-size:11.5px"><div style="width:30px;padding:5px 4px;color:#808080;font-variant-numeric:tabular-nums">02</div><div style="flex:1;min-width:0;padding:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Static Bloom — Vantage</div><div style="width:58px;padding:5px">이든</div><div style="width:42px;padding:5px;font-variant-numeric:tabular-nums">21:40</div></div>
+            <div style="display:flex;font-size:11.5px;background:#f0f0f0"><div style="width:30px;padding:5px 4px;color:#808080;font-variant-numeric:tabular-nums">01</div><div style="flex:1;min-width:0;padding:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">창문 열어둘게 — 소요</div><div style="width:58px;padding:5px">지민</div><div style="width:42px;padding:5px;font-variant-numeric:tabular-nums">21:22</div></div>
+          </div>
+          <div style="margin:0 4px 4px;padding:2px 5px;font-size:10px;background:#c0c0c0;border:2px solid;border-color:#808080 #fff #fff #808080">5개 항목 · 정렬: 최신순</div>
+        </div>
+        <p style="margin:0;width:344px;font-size:11px;line-height:1.5;color:#ffffff">정보 밀도가 가장 높고 정렬·선택이 자연스럽습니다. 앨범아트는 버립니다.</p>
+      </div>
+
+      <div id="1c" style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:#ffffff"><a href="#1c" style="font-weight:700;padding:2px 7px;background:#c0c0c0;color:#000;text-decoration:none">1c</a><span>CD 플레이어 카드 — 앨범아트 크게</span></div>
+        <div style="width:344px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080">
+          <div style="display:flex;align-items:center;gap:6px;padding:3px 5px;background:linear-gradient(90deg,#000080,#1084d0)"><span style="flex:1;font-size:11.5px;font-weight:700;color:#fff">셋로그 — CD 보기</span></div>
+          <div style="padding:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="padding:6px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+              <div style="position:relative;aspect-ratio:1;border:2px solid;border-color:#808080 #fff #fff #808080"><image-slot id="mr98-cd1" shape="rect" placeholder="앨범아트 올리기"></image-slot></div>
+              <div style="margin-top:5px;font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Paper Boats</div>
+              <div style="font-size:10.5px;color:#303030;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Halcyon Field</div>
+              <div style="margin-top:4px;display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;background:#7a8a5e">서</span><span style="font-size:10px">서아 22:31</span></div>
+            </div>
+            <div style="padding:6px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+              <div style="position:relative;aspect-ratio:1;border:2px solid;border-color:#808080 #fff #fff #808080"><image-slot id="mr98-cd2" shape="rect" placeholder="앨범아트 올리기"></image-slot></div>
+              <div style="margin-top:5px;font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">느린 여름</div>
+              <div style="font-size:10.5px;color:#303030">오소리</div>
+              <div style="margin-top:4px;display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;background:#c67139">태</span><span style="font-size:10px">태오 22:12</span></div>
+            </div>
+            <div style="padding:6px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+              <div style="position:relative;aspect-ratio:1;border:2px solid;border-color:#808080 #fff #fff #808080"><image-slot id="mr98-cd3" shape="rect" placeholder="앨범아트 올리기"></image-slot></div>
+              <div style="margin-top:5px;font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Tangerine Hour</div>
+              <div style="font-size:10.5px;color:#303030;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Mimi &amp; the Moths</div>
+              <div style="margin-top:4px;display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;background:#728157">하</span><span style="font-size:10px">하린 21:58</span></div>
+            </div>
+            <div style="padding:6px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff">
+              <div style="position:relative;aspect-ratio:1;border:2px solid;border-color:#808080 #fff #fff #808080"><image-slot id="mr98-cd4" shape="rect" placeholder="앨범아트 올리기"></image-slot></div>
+              <div style="margin-top:5px;font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Static Bloom</div>
+              <div style="font-size:10.5px;color:#303030">Vantage</div>
+              <div style="margin-top:4px;display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;background:#b2622d">이</span><span style="font-size:10px">이든 21:40</span></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin:0;width:344px;font-size:11px;line-height:1.5;color:#ffffff">앨범아트가 주인공. 하루 곡 수가 적은 방에 맞고, 스크롤은 길어집니다.</p>
+      </div>
+
+      <div id="1d" style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:#ffffff"><a href="#1d" style="font-weight:700;padding:2px 7px;background:#c0c0c0;color:#000;text-decoration:none">1d</a><span>메신저형 — 누가 보냈는지가 먼저</span></div>
+        <div style="width:344px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080">
+          <div style="display:flex;align-items:center;gap:6px;padding:3px 5px;background:linear-gradient(90deg,#000080,#1084d0)"><span style="flex:1;font-size:11.5px;font-weight:700;color:#fff">야간 산책 클럽</span><span style="font-size:10px;color:#cfd8ff">같이 듣기 ON</span></div>
+          <div style="margin:4px;padding:8px;display:flex;flex-direction:column;gap:9px;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080">
+            <div style="align-self:center;padding:1px 7px;font-size:10px;background:#c0c0c0;border:1px solid #808080">오늘 21:20</div>
+            <div style="display:flex;gap:7px">
+              <span style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:#8c491a">지</span>
+              <div style="flex:1;min-width:0;display:flex;gap:8px;padding:6px;background:#efefef;border:2px solid;border-color:#fff #808080 #808080 #fff">
+                <span style="width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:15px;color:#fff;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,rgba(255,255,255,.06) 1px 3px),linear-gradient(150deg,#ff4fc3,#8a4be0 48%,#18c8e8);border:1px solid #000">창</span>
+                <span style="flex:1;min-width:0"><span style="display:block;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">창문 열어둘게</span><span style="display:block;font-size:10.5px;color:#303030">소요 · Spotify</span></span>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;flex-direction:row-reverse">
+              <span style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:#7a8a5e">서</span>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding:6px;background:#dfe7ff;border:2px solid;border-color:#fff #808080 #808080 #fff">
+                <div style="display:flex;gap:8px">
+                  <span style="width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:15px;color:#fff;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,rgba(255,255,255,.06) 1px 3px),linear-gradient(120deg,#c04bd8,#ff5fa8 45%,#2fd8e8);border:1px solid #000">P</span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Paper Boats</span><span style="display:block;font-size:10.5px;color:#303030">Halcyon Field · Melon</span></span>
+                </div>
+                <div style="font-size:11px;padding:4px 6px;background:#ffffe1;border:1px solid #000">비 오는 날 첫 곡으로 좋음</div>
+              </div>
+            </div>
+            <div style="align-self:center;display:flex;align-items:center;gap:5px;padding:3px 8px;font-size:10.5px;background:#c0c0c0;border:1px solid #808080"><span style="width:7px;height:7px;background:#000080;animation:blink 1.2s infinite"></span>태오님이 듣기 시작</div>
+          </div>
+        </div>
+        <p style="margin:0;width:344px;font-size:11px;line-height:1.5;color:#ffffff">대화 맥락이 살고 메모가 자연스럽습니다. 셋리스트로서의 가독성은 가장 낮습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin:0;font-size:12px;line-height:1.6;color:#ffffff">다음으로: "<a href="#1b" style="color:#fff">1b</a>의 테이블을 <a href="#1a" style="color:#fff">1a</a>에 넣어줘" · "<a href="#1c" style="color:#fff">1c</a>를 방 피드 기본으로" · "같이 듣기 화면을 따로 만들어줘" · "셋로그 앱 이름 알려줄게"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;myPlatform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Spotify&quot;,&quot;Apple Music&quot;,&quot;YouTube Music&quot;,&quot;Melon&quot;,&quot;지니&quot;,&quot;FLO&quot;,&quot;Bugs&quot;],&quot;default&quot;:&quot;Spotify&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;프로토타입&quot;},&quot;roomSize&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:2,&quot;max&quot;:8,&quot;default&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;프로토타입&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'room', sheet: null, selId: null, now: null, nowFrom: '',
+    note: '', picked: ['r1'], together: false, toast: '', myPlatform: null,
+    exportDay: 'today', exportTarget: null,
+    entries: [
+      { id: 'e5', user: '서아', userInitial: '서', userBg: '#7a8a5e', time: '22:31', title: 'Paper Boats', artist: 'Halcyon Field', platform: 'Melon', art: '#aebf92', artInk: '#272e1b', glyph: 'P', note: '비 오는 날 첫 곡으로 좋음' },
+      { id: 'e4', user: '태오', userInitial: '태', userBg: '#c67139', time: '22:12', title: '느린 여름', artist: '오소리', platform: 'FLO', art: '#ffc6a5', artInk: '#643312', glyph: '느', note: '' },
+      { id: 'e3', user: '하린', userInitial: '하', userBg: '#728157', time: '21:58', title: 'Tangerine Hour', artist: 'Mimi & the Moths', platform: 'YouTube Music', art: '#f6a06b', artInk: '#402310', glyph: 'T', note: '후반 2분만 들어도 됨' },
+      { id: 'e2', user: '이든', userInitial: '이', userBg: '#b2622d', time: '21:40', title: 'Static Bloom', artist: 'Vantage', platform: 'Apple Music', art: '#ccdbb2', artInk: '#272e1b', glyph: 'S', note: '' },
+      { id: 'e1', user: '지민', userInitial: '지', userBg: '#8c491a', time: '21:22', title: '창문 열어둘게', artist: '소요', platform: 'Spotify', art: '#e1eecc', artInk: '#3d472b', glyph: '창', note: '' }
+    ]
+  };
+
+  members = [
+    { name: '지민', glyph: '지', face: '#8c491a' },
+    { name: '이든', glyph: '이', face: '#b2622d' },
+    { name: '서아', glyph: '서', face: '#7a8a5e' },
+    { name: '태오', glyph: '태', face: '#c67139' },
+    { name: '하린', glyph: '하', face: '#728157' }
+  ];
+
+  roomData = [
+    { id: 'r1', name: '야간 산책 클럽', seats: '5/8', dot: '#c67139', last: '서아 · Paper Boats' },
+    { id: 'r2', name: '출근길 셋로그', seats: '3/8', dot: '#7a8a5e', last: '민우 · 첫차' },
+    { id: 'r3', name: '새벽 4시', seats: '2/8', dot: '#808080', last: '어제 03:51' }
+  ];
+
+  platformList = ['Spotify', 'Apple Music', 'YouTube Music', 'Melon', '지니', 'FLO', 'Bugs'];
+  swatches = { 'Spotify': '#7a8a5e', 'Apple Music': '#808080', 'YouTube Music': '#c67139', 'Melon': '#8fa073', '지니': '#000080', 'FLO': '#b2622d', 'Bugs': '#56633f' };
+
+  // vaporwave 앨범아트 — 디더 점 + 스캔라인 + 핑크·시안 그라디언트 (이미지 없을 때의 폴백)
+  vapor(i) {
+    const beds = [
+      'linear-gradient(150deg,#ff4fc3 0%,#8a4be0 48%,#18c8e8 100%)',
+      'linear-gradient(200deg,#ff77d9 0%,#5d3aa8 55%,#00b7d4 100%)',
+      'linear-gradient(120deg,#c04bd8 0%,#ff5fa8 45%,#2fd8e8 100%)',
+      'linear-gradient(170deg,#6a3ca8 0%,#e84fb8 60%,#48e0ff 100%)',
+      'linear-gradient(135deg,#ff5fb0 0%,#7a3fd0 50%,#21b8d8 100%)',
+      'linear-gradient(190deg,#a83fd0 0%,#ff6fc0 50%,#19d0e8 100%)'
+    ];
+    return 'repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,rgba(255,255,255,.06) 1px 3px),'
+      + 'repeating-conic-gradient(from 0deg,rgba(255,255,255,.18) 0 25%,rgba(0,0,0,.14) 0 50%) 0 0/4px 4px,'
+      + beds[i % beds.length];
+  }
+
+  flash(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 2600);
+  }
+
+  componentWillUnmount() { clearTimeout(this._t); }
+
+  renderVals() {
+    const st = this.state;
+    const myPlatform = st.myPlatform || this.props.myPlatform || 'Spotify';
+    const cap = Math.max(2, Math.min(8, this.props.roomSize ?? 8));
+    const n = st.entries.length;
+    const raised = '#fff #000 #000 #fff';
+    const pressed = '#000 #fff #fff #000';
+
+    const entries = st.entries.map((e, i) => ({
+      ...e,
+      no: String(n - i).padStart(2, '0'),
+      art: this.vapor(i + (e.shift || 0)),
+      artInk: '#fff',
+      onClick: () => this.setState({ sheet: 'play', selId: e.id })
+    }));
+
+    const sel = entries.find(e => e.id === st.selId) || {};
+
+    const rooms = this.roomData.map(r => {
+      const on = st.picked.includes(r.id);
+      return {
+        ...r,
+        onClick: () => this.setState({ screen: 'room' }),
+        onPick: () => this.setState(s => ({ picked: on ? s.picked.filter(x => x !== r.id) : s.picked.concat(r.id) })),
+        check: on ? '✓' : '',
+        pickBg: on ? '#000080' : '#fff',
+        pickInk: on ? '#fff' : '#000',
+        faces: this.members.slice(0, 3).map((m, i) => React.createElement('span', {
+          key: i,
+          style: { width: 17, height: 17, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: '#fff', background: m.face, border: '1px solid #000' }
+        }, m.glyph))
+      };
+    });
+
+    const seats = Array.from({ length: cap }, (_, i) => {
+      const m = this.members[i];
+      return m
+        ? { name: m.name, glyph: m.glyph, face: m.face, ink: '#fff', nameInk: '#000', bg: 'transparent' }
+        : { name: '빈자리', glyph: '＋', face: '#c0c0c0', ink: '#808080', nameInk: '#808080', bg: 'transparent' };
+    });
+
+    const platforms = this.platformList.map((name, i) => {
+      const isMine = name === myPlatform;
+      const linked = i < 4;
+      return {
+        name,
+        swatch: this.swatches[name],
+        mark: isMine ? '●' : (linked ? '✓' : ''),
+        state: isMine ? '기본' : (linked ? '연결됨' : '연결하기'),
+        bg: isMine ? '#000080' : '#fff',
+        ink: isMine ? '#fff' : '#000',
+        onClick: () => { this.setState({ myPlatform: name }); this.flash(name + '을 기본 플랫폼으로 지정했습니다.'); }
+      };
+    });
+
+    const tab = k => st.screen === k
+      ? { bg: '#a8a8a8', border: pressed }
+      : { bg: '#c0c0c0', border: raised };
+    const th = tab('home'), tr = tab('room'), tm = tab('me');
+
+    const sheetTitles = { play: '재생 — 플랫폼 열기', share: '지금 듣는 곡 공유', invite: '멤버 초대 — NIGHT-72', export: '플레이리스트 내보내기' };
+
+    const dayData = [
+      { id: 'today', label: '오늘 09/16', count: n },
+      { id: 'yday', label: '어제 09/15', count: 9 },
+      { id: 'week', label: '이번 주 전체', count: 31 }
+    ];
+    const days = dayData.map(d => ({
+      ...d,
+      onPick: () => this.setState({ exportDay: d.id }),
+      bg: st.exportDay === d.id ? '#000080' : '#c0c0c0',
+      ink: st.exportDay === d.id ? '#fff' : '#000',
+      border: st.exportDay === d.id ? pressed : raised
+    }));
+    const activeDay = dayData.find(d => d.id === st.exportDay) || dayData[0];
+
+    const targetData = this.platformList.slice(0, 4)
+      .map(name => ({ name, note: name === myPlatform ? '기본' : '연결됨', swatch: this.swatches[name] }))
+      .concat([{ name: '텍스트로 복사 / 내보내기', note: 'M3U · 곡 목록', swatch: '#c0c0c0' }]);
+    const target = st.exportTarget || myPlatform;
+    const exportTargets = targetData.map(t => ({
+      ...t,
+      mark: t.name === target ? '●' : '',
+      bg: t.name === target ? '#000080' : '#fff',
+      ink: t.name === target ? '#fff' : '#000',
+      onPick: () => this.setState({ exportTarget: t.name })
+    }));
+
+    return {
+      myPlatform, entries, rooms, seats, platforms, sel,
+      logCount: n, seatCap: cap,
+      winTitle: st.screen === 'room' ? '야간 산책 클럽 — 셋로그' : (st.screen === 'home' ? '음악방.exe' : '내 계정 — 플랫폼 연결'),
+      isRoom: st.screen === 'room', isHome: st.screen === 'home', isMe: st.screen === 'me',
+      memberCount: this.members.length,
+      memberLabel: this.members.length + '/' + cap + '명',
+      statusText: st.together ? '같이 듣기 켜짐 — 방 전체가 같은 곡을 재생합니다' : (st.now ? myPlatform + '에서 재생 중' : '준비됨'),
+      together: st.together,
+      togetherMark: st.together ? '✓' : '',
+      togetherLabel: st.together ? '켜짐' : '꺼짐',
+      toggleTogether: () => {
+        const next = !st.together;
+        this.setState({ together: next });
+        this.flash(next ? '같이 듣기를 켰습니다. 방 멤버의 재생 위치가 맞춰집니다.' : '같이 듣기를 껐습니다. 각자 재생합니다.');
+      },
+      toast: st.toast,
+      hasNow: !!st.now, nowTitle: st.now || '', nowFrom: st.nowFrom,
+      stopNow: () => this.setState({ now: null }),
+      sheetOpen: !!st.sheet,
+      sheetTitle: sheetTitles[st.sheet] || '',
+      isPlaySheet: st.sheet === 'play',
+      isShareSheet: st.sheet === 'share',
+      isInviteSheet: st.sheet === 'invite',
+      hasNote: !!sel.note,
+      noteDraft: st.note,
+      setNote: e => this.setState({ note: e.target.value }),
+      openShare: () => this.setState({ sheet: 'share' }),
+      openInvite: () => this.setState({ sheet: 'invite' }),
+      closeSheet: () => this.setState({ sheet: null }),
+      stopProp: e => e.stopPropagation(),
+      playHere: () => {
+        this.setState({ sheet: null, now: sel.title, nowFrom: sel.user });
+        this.flash(myPlatform + '(으)로 이동해 재생을 시작했습니다.');
+      },
+      days, exportTargets,
+      isExportSheet: st.sheet === 'export',
+      openExport: () => this.setState({ sheet: 'export' }),
+      exportHint: target === '텍스트로 복사 / 내보내기'
+        ? '곡 목록을 텍스트·M3U로 받습니다. 플랫폼 계정이 필요 없습니다.'
+        : target + '에서 찾을 수 없는 곡은 건너뛰고, 목록 끝에 따로 표시합니다.',
+      doExport: () => {
+        this.setState({ sheet: null });
+        this.flash(target === '텍스트로 복사 / 내보내기'
+          ? activeDay.label + ' ' + activeDay.count + '곡을 텍스트 목록으로 복사했습니다.'
+          : activeDay.label + ' ' + activeDay.count + '곡을 ' + target + ' 플레이리스트 “야간 산책 ' + activeDay.label.replace(/[^0-9/]/g, '') + '”으로 내보냈습니다.');
+      },
+      doShare: () => {
+        const e = { id: 'n' + Date.now(), user: '지민', userInitial: '지', userBg: '#8c491a', time: '22:41', title: '밤의 산책', artist: '유정하', platform: myPlatform, art: '#f6a06b', artInk: '#402310', glyph: '밤', note: st.note };
+        this.setState(s => ({ entries: [e].concat(s.entries), sheet: null, note: '', screen: 'room' }));
+        this.flash('셋로그에 올렸습니다. 방 멤버 ' + (this.members.length - 1) + '명에게 표시됩니다.');
+      },
+      goHome: () => this.setState({ screen: 'home' }),
+      goRoom: () => this.setState({ screen: 'room' }),
+      goMe: () => this.setState({ screen: 'me' }),
+      homeBg: th.bg, homeBorder: th.border,
+      roomBg: tr.bg, roomBorder: tr.border,
+      meBg: tm.bg, meBorder: tm.border
+    };
+  }
+}
+</script>
+</body>
+</html>
