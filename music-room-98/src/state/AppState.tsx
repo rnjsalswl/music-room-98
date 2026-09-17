@@ -1,7 +1,8 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useRef } from 'react';
-import { Entry, initialEntries, rooms as roomData, members } from '../data/mock';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
+import { Entry, rooms as roomData, members } from '../data/mock';
 import { platformList } from '../theme/win98';
 import { openInPlatform } from '../integrations/deepLinks';
+import { fetchRoomByCode, fetchEntries, insertEntry, setTogether, subscribeToRoom } from '../integrations/roomSync';
 
 export type ScreenId = 'home' | 'room' | 'me';
 export type SheetId = 'play' | 'share' | 'invite' | 'export' | null;
@@ -20,6 +21,9 @@ type State = {
   exportDay: ExportDay;
   exportTarget: string | null;
   entries: Entry[];
+  roomId: string | null;
+  seatCap: number;
+  syncing: boolean;
 };
 
 const initialState: State = {
@@ -34,30 +38,31 @@ const initialState: State = {
   toast: '',
   exportDay: 'today',
   exportTarget: null,
-  entries: initialEntries,
+  entries: [],
+  roomId: null,
+  seatCap: 8,
+  syncing: true,
 };
 
 type Action =
   | { type: 'SET_SCREEN'; screen: ScreenId }
   | { type: 'OPEN_SHEET'; sheet: Exclude<SheetId, null>; selId?: string }
   | { type: 'CLOSE_SHEET' }
-  | { type: 'TOGGLE_TOGETHER' }
   | { type: 'SET_PLATFORM'; platform: string }
   | { type: 'SET_NOTE'; note: string }
   | { type: 'TOGGLE_ROOM_PICK'; roomId: string }
   | { type: 'PLAY_HERE' }
   | { type: 'STOP_NOW' }
-  | { type: 'DO_SHARE' }
+  | { type: 'DO_SHARE_UI' }
   | { type: 'SET_EXPORT_DAY'; day: ExportDay }
   | { type: 'SET_EXPORT_TARGET'; target: string }
   | { type: 'DO_EXPORT' }
   | { type: 'SET_TOAST'; message: string }
-  | { type: 'CLEAR_TOAST' };
-
-function nowClock() {
-  const d = new Date();
-  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-}
+  | { type: 'CLEAR_TOAST' }
+  | { type: 'HYDRATE_ROOM'; roomId: string; together: boolean; seatCap: number; entries: Entry[] }
+  | { type: 'HYDRATE_FAILED' }
+  | { type: 'REMOTE_ENTRY'; entry: Entry }
+  | { type: 'REMOTE_TOGETHER'; together: boolean };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -67,8 +72,6 @@ function reducer(state: State, action: Action): State {
       return { ...state, sheet: action.sheet, selId: action.selId ?? state.selId };
     case 'CLOSE_SHEET':
       return { ...state, sheet: null };
-    case 'TOGGLE_TOGETHER':
-      return { ...state, together: !state.together };
     case 'SET_PLATFORM':
       return { ...state, myPlatform: action.platform };
     case 'SET_NOTE':
@@ -87,22 +90,8 @@ function reducer(state: State, action: Action): State {
     }
     case 'STOP_NOW':
       return { ...state, now: null };
-    case 'DO_SHARE': {
-      const e: Entry = {
-        id: 'n' + Date.now(),
-        user: '지민',
-        userInitial: '지',
-        userBg: '#8c491a',
-        time: nowClock(),
-        title: '밤의 산책',
-        artist: '유정하',
-        platform: state.myPlatform,
-        glyph: '밤',
-        gradient: ['#f6a06b', '#ff4fc3'],
-        note: state.note,
-      };
-      return { ...state, entries: [e, ...state.entries], sheet: null, note: '', screen: 'room' };
-    }
+    case 'DO_SHARE_UI':
+      return { ...state, sheet: null, note: '', screen: 'room' };
     case 'SET_EXPORT_DAY':
       return { ...state, exportDay: action.day };
     case 'SET_EXPORT_TARGET':
@@ -113,6 +102,22 @@ function reducer(state: State, action: Action): State {
       return { ...state, toast: action.message };
     case 'CLEAR_TOAST':
       return { ...state, toast: '' };
+    case 'HYDRATE_ROOM':
+      return {
+        ...state,
+        roomId: action.roomId,
+        together: action.together,
+        seatCap: action.seatCap,
+        entries: action.entries,
+        syncing: false,
+      };
+    case 'HYDRATE_FAILED':
+      return { ...state, syncing: false };
+    case 'REMOTE_ENTRY':
+      if (state.entries.some((e) => e.id === action.entry.id)) return state;
+      return { ...state, entries: [action.entry, ...state.entries] };
+    case 'REMOTE_TOGETHER':
+      return { ...state, together: action.together };
     default:
       return state;
   }
@@ -125,6 +130,8 @@ export const dayMeta: Record<ExportDay, { label: string; count: number }> = {
 };
 
 export const exportTargetNames = [...platformList.slice(0, 4), '텍스트로 복사 / 내보내기'];
+
+const ROOM_CODE = 'NIGHT-72';
 
 type Ctx = {
   state: State;
@@ -165,6 +172,39 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     timer.current = setTimeout(() => dispatch({ type: 'CLEAR_TOAST' }), 2600);
   }, []);
 
+  // Hydrate the shared room from Supabase, then stay subscribed so every
+  // device viewing this room sees new setlog entries and the "같이 듣기"
+  // toggle in real time — this is the one room this build talks to
+  // (NIGHT-72 / 야간 산책 클럽); creating other rooms is still local-only.
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const room = await fetchRoomByCode(ROOM_CODE);
+        if (!room) throw new Error('room not found');
+        const entries = await fetchEntries(room.id);
+        if (cancelled) return;
+        dispatch({ type: 'HYDRATE_ROOM', roomId: room.id, together: room.together, seatCap: room.seat_cap, entries });
+        unsubscribe = subscribeToRoom(
+          room.id,
+          (entry) => dispatch({ type: 'REMOTE_ENTRY', entry }),
+          (updatedRoom) => dispatch({ type: 'REMOTE_TOGETHER', together: updatedRoom.together })
+        );
+      } catch {
+        if (cancelled) return;
+        dispatch({ type: 'HYDRATE_FAILED' });
+        flash('실시간 동기화 연결 실패 — 네트워크를 확인해주세요.');
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+    };
+  }, [flash]);
+
   const activeDay = useMemo(() => {
     const meta = dayMeta[state.exportDay];
     const count = state.exportDay === 'today' ? state.entries.length : meta.count;
@@ -182,9 +222,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       openExport: () => dispatch({ type: 'OPEN_SHEET', sheet: 'export' }),
       closeSheet: () => dispatch({ type: 'CLOSE_SHEET' }),
       toggleTogether: () => {
+        if (!state.roomId) return;
         const next = !state.together;
-        dispatch({ type: 'TOGGLE_TOGETHER' });
-        flash(next ? '같이 듣기를 켰습니다. 방 멤버의 재생 위치가 맞춰집니다.' : '같이 듣기를 껐습니다. 각자 재생합니다.');
+        setTogether(state.roomId, next).catch(() => flash('동기화 실패 — 네트워크를 확인해주세요.'));
       },
       setPlatform: (name: string) => {
         dispatch({ type: 'SET_PLATFORM', platform: name });
@@ -200,8 +240,25 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       },
       stopNow: () => dispatch({ type: 'STOP_NOW' }),
       doShare: () => {
-        dispatch({ type: 'DO_SHARE' });
-        flash('셋로그에 올렸습니다. 방 멤버 ' + (members.length - 1) + '명에게 표시됩니다.');
+        if (!state.roomId) {
+          flash('방 동기화가 아직 준비되지 않았습니다.');
+          return;
+        }
+        const entry = {
+          user: '지민',
+          userInitial: '지',
+          userBg: '#8c491a',
+          title: '밤의 산책',
+          artist: '유정하',
+          platform: state.myPlatform,
+          glyph: '밤',
+          gradient: ['#f6a06b', '#ff4fc3'] as [string, string],
+          note: state.note,
+        };
+        dispatch({ type: 'DO_SHARE_UI' });
+        insertEntry(state.roomId, entry)
+          .then(() => flash('셋로그에 올렸습니다 — 방에 있는 모든 기기에 실시간으로 표시됩니다.'))
+          .catch(() => flash('업로드 실패 — 네트워크를 확인해주세요.'));
       },
       setExportDay: (day: ExportDay) => dispatch({ type: 'SET_EXPORT_DAY', day }),
       setExportTarget: (target: string) => dispatch({ type: 'SET_EXPORT_TARGET', target }),
@@ -217,14 +274,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         );
       },
     }),
-    [state.together, state.myPlatform, state.exportTarget, state.exportDay, state.entries, state.selId, flash]
+    [state.together, state.myPlatform, state.exportTarget, state.exportDay, state.entries, state.selId, state.roomId, state.note, flash]
   );
 
-  const seatCap = 8;
-
   const value = useMemo(
-    () => ({ state, flash, activeDay, seatCap, actions }),
-    [state, flash, activeDay, seatCap, actions]
+    () => ({ state, flash, activeDay, seatCap: state.seatCap, actions }),
+    [state, flash, activeDay, actions]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

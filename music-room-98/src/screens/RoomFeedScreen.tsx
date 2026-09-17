@@ -68,6 +68,10 @@ export function RoomFeedScreen() {
         <Text style={styles.sectionMeta}>오늘 · {state.entries.length}곡</Text>
       </View>
 
+      {state.syncing && state.entries.length === 0 && (
+        <Text style={styles.syncingText}>방에 연결하는 중…</Text>
+      )}
+
       <View>
         {state.entries.map((e, i) => (
           <Pressable
@@ -150,6 +154,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: { fontFamily: fontHeading, fontSize: 17 },
   sectionMeta: { fontFamily: fontBody, fontSize: 11 },
+  syncingText: { fontFamily: fontBody, fontSize: 11, color: win98.mutedText, fontStyle: 'italic' },
   entryRow: {
     flexDirection: 'row',
     alignItems: 'center',
