@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useRef } from 'react';
 import { Entry, initialEntries, rooms as roomData, members } from '../data/mock';
 import { platformList } from '../theme/win98';
+import { openInPlatform } from '../integrations/deepLinks';
 
 export type ScreenId = 'home' | 'room' | 'me';
 export type SheetId = 'play' | 'share' | 'invite' | 'export' | null;
@@ -192,8 +193,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       setNote: (text: string) => dispatch({ type: 'SET_NOTE', note: text }),
       pickRoom: (roomId: string) => dispatch({ type: 'TOGGLE_ROOM_PICK', roomId }),
       playHere: () => {
+        const sel = state.entries.find((e) => e.id === state.selId);
         dispatch({ type: 'PLAY_HERE' });
-        flash(state.myPlatform + '(으)로 이동해 재생을 시작했습니다.');
+        flash(state.myPlatform + '에서 검색을 엽니다 — 실제 트랙 카탈로그 연동 전이라 제목/아티스트로 검색합니다.');
+        if (sel) openInPlatform(state.myPlatform, sel.title, sel.artist).catch(() => {});
       },
       stopNow: () => dispatch({ type: 'STOP_NOW' }),
       doShare: () => {
@@ -214,7 +217,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         );
       },
     }),
-    [state.together, state.myPlatform, state.exportTarget, state.exportDay, state.entries.length, flash]
+    [state.together, state.myPlatform, state.exportTarget, state.exportDay, state.entries, state.selId, flash]
   );
 
   const seatCap = 8;
